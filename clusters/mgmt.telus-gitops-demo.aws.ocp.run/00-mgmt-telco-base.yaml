@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: openshift-gitops
+  name: 00-mgmt-telco-shift-zone
+spec:
+  destination:
+    namespace: ''
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: clusters/mgmt.telus-gitops-demo.aws.ocp.run
+    targetRevision: HEAD
+    repoURL: 'https://github.com/openshift-telco/telco-gitops.git'
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: v4-0-config-user-idp-0-file-data
+      namespace: openshift-authentication
+      jsonPointers:
+      - /
